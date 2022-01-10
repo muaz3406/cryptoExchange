@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "ff93f0f3-0c85-4d27-8a42-8dcfd286cdec",
+		"name": "CryptoExchangeApplication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getRate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/getRate/USD",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getRate",
+						"USD"
+					]
+				},
+				"description": "Getting BTC price for 1 unit with EUR OR USD request param"
+			},
+			"response": []
+		},
+		{
+			"name": "buyExchangeOffer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/buyExchangeOffer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"buyExchangeOffer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createExchangeOffer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fromCurrency\":\"USD\",\r\n    \"customerId\":1,\r\n    \"value\":\"100\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/createExchangeOffer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createExchangeOffer"
+					]
+				},
+				"description": "fromCurrency has to be USD or EUR\r\nvalue hast to be 25<= value => 1000\r\ncustomerId not null"
+			},
+			"response": []
+		}
+	]
+}
