@@ -12,7 +12,7 @@ Context:
 ## Getting Started
 
 In this project, I used Redis for caching and PostgreSql with Spring Boot.
-USD and EUR convert to BTC 1 unit price (rate) and request info caches in redis.
+USD and EUR convert to BTC and request info caches in redis.
 Calculated result expires after 10 sec.
 Rate info expires after 15min.
 

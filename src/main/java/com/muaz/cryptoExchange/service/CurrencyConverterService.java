@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 @Slf4j
@@ -37,7 +38,7 @@ public class CurrencyConverterService {
     }
 
     public ExchangeOfferResponseDto createExchangeOffer(CurrencyConverterDto currencyConverterDto) throws BlockChainServiceNotRespondingException {
-        log.info("getExchangeOffer currencyConverterDto: {}", currencyConverterDto);
+        log.debug("getExchangeOffer currencyConverterDto: {}", currencyConverterDto);
         checkValidOffer(currencyConverterDto);
         String fromCurrency = currencyConverterDto.getFromCurrency();
         Optional<BigDecimal> optionalRate = currencyInfoCacheRepository.findByCurrencyType(fromCurrency);
@@ -47,8 +48,8 @@ public class CurrencyConverterService {
         return prepareOffer(currencyConverterDto, externalCurrencyService.getRateFromRest(fromCurrency));
     }
 
-    public void buyExchangeOffer(ExchangeOfferResponseDto exchangeOfferResponseDto) {
-        log.info("getExchangeOffer currencyConverterDto: {}", exchangeOfferResponseDto);
+    public ExchangeOffer buyExchangeOffer(ExchangeOfferResponseDto exchangeOfferResponseDto) {
+        log.debug("buyExchangeOffer exchangeOfferResponseDto: {}", exchangeOfferResponseDto);
 
         ExchangeOffer exchangeOffer = ExchangeOffer.builder()
                 .fromCurrency(exchangeOfferResponseDto.getFromCurrency())
@@ -56,9 +57,10 @@ public class CurrencyConverterService {
                 .status("SUCCESS")
                 .toCurrency("BTC")
                 .totalPrice(exchangeOfferResponseDto.getTotalPrice())
+                .customerId(exchangeOfferResponseDto.getCustomerId())
                 .value(exchangeOfferResponseDto.getValue())
                 .build();
-        exchangeOfferRepository.save(exchangeOffer);
+        return exchangeOfferRepository.save(exchangeOffer);
     }
 
     private void checkValidOffer(CurrencyConverterDto currencyConverterDto) {
@@ -93,6 +95,7 @@ public class CurrencyConverterService {
                 .toCurrency(currencyConverterDto.getToCurrency())
                 .totalPrice(currencyConverterDto.getValue().multiply(rate))
                 .build();
+        log.debug("prepareOffer caches with exchangeOfferResponseDto: {}", exchangeOfferResponseDto);
         return exchangeOfferCacheRepository.save(exchangeOfferResponseDto);
     }
 

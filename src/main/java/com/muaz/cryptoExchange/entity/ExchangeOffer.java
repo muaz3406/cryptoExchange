@@ -1,17 +1,25 @@
 package com.muaz.cryptoExchange.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Data
 @Builder
-public class ExchangeOffer {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ExchangeOffer implements Serializable {
+
+    private static final long serialVersionUID = 125464567L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

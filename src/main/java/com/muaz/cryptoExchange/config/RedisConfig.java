@@ -9,6 +9,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import redis.clients.jedis.Jedis;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
 @EnableRedisRepositories
@@ -38,5 +41,12 @@ public class RedisConfig {
         template.setEnableTransactionSupport(true);
         template.afterPropertiesSet();
         return template;
+    }
+
+    @PostConstruct
+    public void clearCache() {
+        Jedis jedis = new Jedis(host, port, 1000);
+        jedis.flushAll();
+        jedis.close();
     }
 }
