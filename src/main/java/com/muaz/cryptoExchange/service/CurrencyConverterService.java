@@ -86,6 +86,7 @@ public class CurrencyConverterService {
     }
 
     private ExchangeOfferResponseDto prepareOffer(CurrencyConverterDto currencyConverterDto, BigDecimal rate) {
+        BigDecimal totalPrice = currencyConverterDto.getValue().multiply(rate).setScale(6, RoundingMode.HALF_UP);
         ExchangeOfferResponseDto exchangeOfferResponseDto = ExchangeOfferResponseDto.builder()
                 .rate(rate)
                 .value(currencyConverterDto.getValue())
@@ -93,7 +94,7 @@ public class CurrencyConverterService {
                 .customerId(currencyConverterDto.getCustomerId())
                 .fromCurrency(currencyConverterDto.getFromCurrency())
                 .toCurrency(currencyConverterDto.getToCurrency())
-                .totalPrice(currencyConverterDto.getValue().multiply(rate))
+                .totalPrice(totalPrice)
                 .build();
         log.debug("prepareOffer caches with exchangeOfferResponseDto: {}", exchangeOfferResponseDto);
         return exchangeOfferCacheRepository.save(exchangeOfferResponseDto);

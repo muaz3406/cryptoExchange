@@ -17,19 +17,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @Api(value = "CurrencyConverter Api documentation")
 public class CurrencyConverterController {
 
-    @Autowired
-    private CurrencyConverterService currencyConverterService;
-    @Autowired
-    private ExchangeOfferCacheRepository exchangeOfferCacheRepository;
 
-    @Autowired
-    private ExchangeOfferRepository exchangeOfferRepository;
+    private final CurrencyConverterService currencyConverterService;
+    private final ExchangeOfferCacheRepository exchangeOfferCacheRepository;
+    private final ExchangeOfferRepository exchangeOfferRepository;
 
     @ApiOperation(value = "create exchange offer", notes = "If not valid request returns 400")
     @PostMapping("/createExchangeOffer")
@@ -54,6 +52,12 @@ public class CurrencyConverterController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @ApiOperation(value = "Get all persisted exchanges")
+    @GetMapping("/findAll")
+    public ResponseEntity<List> findAll() {
+        return new ResponseEntity<>(exchangeOfferRepository.findAll(), HttpStatus.OK);
     }
 
 }
