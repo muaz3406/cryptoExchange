@@ -1,4 +1,4 @@
-# Spring Boot Crypto converter
+# Spring Boot Crypto Converter
 
 
 Context:
@@ -57,8 +57,6 @@ docker-compose build --no-cache
 docker-compose up --force-recreate
 
 ```
-
-After running the application you can visit `http://localhost:8080`.	
 
 ## Endpoints with Swagger
 
